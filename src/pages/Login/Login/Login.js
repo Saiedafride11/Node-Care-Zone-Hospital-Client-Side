@@ -6,12 +6,12 @@ import login from '../../../images/login.png';
 
 const Login = () => {
     const [loginData, setLoginData] = useState({});
-    const {user, authError, loginUser, isLoading} = useAuth();
+    const {user, authError, loginUser, signInWithGoogle, isLoading} = useAuth();
 
     const location = useLocation();
     const history = useHistory();
 
-    const handleOnChange = e => {
+    const handleOnBlur = e => {
         const field = e.target.name;
         const value = e.target.value;
         const newLoginData = { ...loginData };
@@ -21,6 +21,10 @@ const Login = () => {
     const handleLoginSubmit = e => {
         loginUser(loginData.email, loginData.password, location, history);
         e.preventDefault();
+    }
+
+    const handleGoogleSignIn = e => {
+        signInWithGoogle(location, history);
     }
     return (
         <Container>
@@ -34,7 +38,7 @@ const Login = () => {
                             label="Your Email"
                             name="email"
                             type="email"
-                            onChange={handleOnChange}
+                            onBlur={handleOnBlur}
                             variant="standard" />
                          <TextField
                             sx={{ width: '75%', m: 1 }}
@@ -42,7 +46,7 @@ const Login = () => {
                             label="Your Password"
                             type="password"
                             name="password"
-                            onChange={handleOnChange}
+                            onBlur={handleOnBlur}
                             variant="standard" />
                             <Button sx={{ width: '75%', m: 1 }} type="submit" variant="contained">Login</Button>
                         <NavLink
@@ -50,10 +54,12 @@ const Login = () => {
                             to="/register">
                             <Button variant="text">New User? Please Register</Button>
                         </NavLink>
+                        {isLoading && <CircularProgress/>}
+                        {user?.email && <Alert severity="success">Login successfully!</Alert>}
+                        {authError && <Alert severity="error">{authError}</Alert>}
                     </form>
-                    {isLoading && <CircularProgress/>}
-                    {user?.email && <Alert severity="success">Login successfully!</Alert>}
-                    {authError && <Alert severity="error">{authError}</Alert>}
+                    <p>----------- Or ----------</p>
+                    <Button onClick={handleGoogleSignIn} variant="contained">Google Signin</Button>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <img style={{width: '100%'}} src={login} alt="" />
