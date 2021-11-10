@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 
 const bannerBg = {
     background: `url(${bg})`,
+    paddingTop: '2px'
 
 }
 

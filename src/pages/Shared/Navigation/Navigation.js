@@ -25,10 +25,10 @@ const Navigation = () => {
                 <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    <Link to="/home">Care Zone</Link>
+                    <Link to="/home" style={{color: 'white'}}>Care Zone</Link>
                 </Typography>
                 <Link to="/appointment">
-                    <Button color="inherit">Appointment</Button>
+                    <Button color="inherit" style={{color: 'white'}}>Appointment</Button>
                 </Link>
                 {
                     user?.email ?

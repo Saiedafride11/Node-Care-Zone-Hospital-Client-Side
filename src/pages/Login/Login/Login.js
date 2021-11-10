@@ -6,7 +6,7 @@ import login from '../../../images/login.png';
 
 const Login = () => {
     const [loginData, setLoginData] = useState({});
-    const {user, authError, loginUser, signInWithGoogle, isLoading} = useAuth();
+    const { user, loginUser, signInWithGoogle, isLoading, authError } = useAuth();
 
     const location = useLocation();
     const history = useHistory();
@@ -23,8 +23,8 @@ const Login = () => {
         e.preventDefault();
     }
 
-    const handleGoogleSignIn = e => {
-        signInWithGoogle(location, history);
+    const handleGoogleSignIn = () => {
+        signInWithGoogle(location, history)
     }
     return (
         <Container>

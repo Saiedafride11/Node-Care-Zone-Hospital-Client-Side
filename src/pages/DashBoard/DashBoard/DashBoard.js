@@ -16,16 +16,23 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Button, Grid } from '@mui/material';
-import Appointments from '../Appointments/Appointments';
 import { Link } from 'react-router-dom';
-import Calender from '../../Shared/Calender/Calender';
+import { BrowserRouter as Router, Switch, Route, useParams, useRouteMatch } from "react-router-dom";
+import DashBoardHome from '../DashBoardHome/DashBoardHome';
+import MakeAdmin from '../MakeAdmin/MakeAdmin';
+import AddDoctor from '../AddDoctor/AddDoctor';
+import useAuth from '../../../hooks/useAuth';
+import AdminRoute from '../../Login/AdminRoute/AdminRoute';
 
 const drawerWidth = 200;
 
 function DashBoard(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [date, setDate] = React.useState(new Date())
+  // const [date, setDate] = React.useState(new Date())
+
+  let { path, url } = useRouteMatch();
+  const {admin} = useAuth()
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -35,9 +42,12 @@ function DashBoard(props) {
     <div>
       <Toolbar />
       <Divider />
-      <Link to="/appointment">
-            <Button color="inherit">Appointment</Button>
-       </Link>
+      <Link to="/appointment"><Button color="inherit">Appointment</Button></Link>
+      <Link to={`${url}`}><Button color="inherit">DashBoard</Button></Link>
+      {admin && <Box>
+                <Link to={`${url}/makeAdmin`}><Button color="inherit">Make Admin</Button></Link>
+                <Link to={`${url}/addDoctor`}><Button color="inherit">Add Doctor</Button></Link>
+      </Box>}
       <List>
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
           <ListItem button key={text}>
@@ -115,16 +125,25 @@ function DashBoard(props) {
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
-        <Typography paragraph>
-            <Grid container spacing={2}>
-                <Grid item xs={12} sm={5}>
-                    <Calender date={date} setDate={setDate}></Calender>
-                </Grid>
-                <Grid item xs={12} md={7}>
-                    <Appointments date={date}></Appointments>
-                </Grid>
+        {/* <Grid container spacing={2}>
+            <Grid item xs={12} sm={5}>
+                <Calender date={date} setDate={setDate}></Calender>
             </Grid>
-        </Typography>
+            <Grid item xs={12} md={7}>
+                <Appointments date={date}></Appointments>
+            </Grid>
+        </Grid> */}
+        <Switch>
+          <Route exact path={path}>
+            <DashBoardHome></DashBoardHome>
+          </Route>
+          <AdminRoute path={`${path}/makeAdmin`}>
+            <MakeAdmin></MakeAdmin>
+          </AdminRoute>
+          <AdminRoute path={`${path}/addDoctor`}>
+            <AddDoctor></AddDoctor>
+          </AdminRoute>
+        </Switch>
       </Box>
     </Box>
   );

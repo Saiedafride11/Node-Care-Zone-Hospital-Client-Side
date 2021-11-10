@@ -47,7 +47,8 @@ const BookingModal = ({openBooking, handleBookingClose, booking, date, setBookin
         }
 
         // send to the server
-        fetch('http://localhost:5000/appointments', {
+        // fetch('http://localhost:5000/appointments', {
+        fetch('https://tranquil-fortress-32370.herokuapp.com/appointments', {
           method: 'POST',
           headers: {
               'content-type': 'application/json'
