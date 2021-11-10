@@ -7,13 +7,14 @@ const MakeAdmin = () => {
     const [success, setSuccess] = useState(false);
     const { token } = useAuth();
 
-    const handleBlur = e => {
+    const handleOnBlur = e => {
         setEmail(e.target.value)
     }
     
     const handleAdminSubmit = e => {
         const user = { email };
-        fetch('http://localhost:5000/users/admin', {
+        // fetch('http://localhost:5000/users/admin', {
+        fetch('https://tranquil-fortress-32370.herokuapp.com/users/admin', {
             method: 'PUT',
             headers: {
                 'authorization': `Bearer ${token}`,
@@ -24,7 +25,7 @@ const MakeAdmin = () => {
             .then(res => res.json())
             .then(data => {
                 if (data.modifiedCount) {
-                    console.log(data);
+                    // console.log(data);
                     setSuccess(true);
                 }
             })
@@ -33,16 +34,15 @@ const MakeAdmin = () => {
     }
     return (
         <div>
-            <h2>Make An Admin</h2>
-
+            <h2>Make an Admin</h2>
             <form onSubmit={handleAdminSubmit}>
                 <TextField
                     sx={{ width: '50%' }}
-                    label="Standard"
+                    label="Email"
                     type="email"
-                    onBlur={handleBlur}
+                    onBlur={handleOnBlur}
                     variant="standard" />
-                <Button variant="contained">Make Admin</Button>
+                <Button type="submit" variant="contained">Make Admin</Button>
             </form>
             {success && <Alert severity="success">Made Admin successfully!</Alert>}
         </div>
